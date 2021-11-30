@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import "./index.css";
+import Store from "./store";
+import Home from "./routes/home";
+import Favorites from "./routes/favorites";
+import HeroeDetail from "./routes/heroeDetail";
+import { ChakraProvider } from "@chakra-ui/react";
+
+export const StoreContext = createContext({} as any);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StoreContext.Provider value={new Store()}>
+      <ChakraProvider>
+        <div className="App">
+          <NavBar />
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/heroes" element={<Home />} />
+            <Route path="/heroes/:id" element={<HeroeDetail />} />
+            <Route path="/favorites" element={<Favorites />} />
+          </Routes>
+        </div>
+      </ChakraProvider>
+    </StoreContext.Provider>
   );
 }
 
